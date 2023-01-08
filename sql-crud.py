@@ -21,6 +21,14 @@ class Programmer(base):
     famous_for = Column(String)
 
 
+# Excersise Subjects table
+class Subjects(base):
+    __tablename__ = "Subjects"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    credits = Column(Integer)
+
+
 # instead of connecting to the database directly, we will ask for a session
 # create a new instance of sessionmaker, then point to our engine (the db)
 Session = sessionmaker(db)
@@ -89,6 +97,17 @@ base.metadata.create_all(db)
 #     famous_for="Help Others"
 # )
 
+JavaScript = Subjects(
+    name="JavaScript",
+    credits=21
+ )
+
+Python = Subjects(
+    name="python",
+    credits=22
+ )
+
+
 # add each instance of our programmers to our session
 # session.add(ada_lovelace)
 # session.add(alan_turing)
@@ -97,19 +116,89 @@ base.metadata.create_all(db)
 # session.add(bill_gates)
 # session.add(tim_berners_lee)
 # session.add(Manuel_Pedro)
+# session.add(JavaScript)
+# session.add(Python)
 
-# commit our session to the database
+
+
+# updating a single record
+# programmer = session.query(Programmer).filter_by(id=7).first()
+# programmer.famous_for = "Help over a million people"
+
+Subject = session.query(Subjects).filter_by(id=1).first
+Subject.name = "JS"
 session.commit()
 
+# updating a multiple record
+# people = session.query(Programmer)
+# for person in people:
+#     if person.gender == "Female":
+#         person.gender = "F"
+#     elif person.gender == "Male":
+#         person.gender = "M"
+#     else:
+#         print("Gender not defined")
+#     session.commit()
+
+# updating multiple records
+# people = session.query(Programmer)
+# for person in people:
+#     if person.gender == "F":
+#         person.gender = "Female"
+#     elif person.gender == "M":
+#         person.gender = "Male"
+#     else:
+#         print("Gender not defined")
+#     session.commit()
+
+
+# subject = session.query(Subjects)
+# for x in subject:
+#     if x.credits == 21:
+#         x.credits = 23
+#     elif x.credits == 22:
+#         x.credits = 24
+#     else:
+#         print("Credits not defined")
+#     session.commit()
+
+
+# deleting a single record
+# fname = input("Enter first name")
+# lname = input("Enter last name")
+# programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname).first()
+
+#defensive programming
+# if programmer is not None:
+#     print("Programmer Found: ", programmer.first_name + " " + programmer.last_name)
+#     confirmation = input("Are you sure you want to delete this record (y/n)")
+#     if confirmation.lower() == "y":
+#         session.delete(programmer)
+#         session.commit()
+#         print("Programmer not deleted")
+# else:
+#     print("No records fond")
+
+# commit our session to the database
+# session.commit()
 
 # query the database to find all Programmers
-programmers = session.query(Programmer)
-for programmer in programmers:
+# programmers = session.query(Programmer)
+# for programmer in programmers:
+#     print(
+#         programmer.id,
+#         programmer.first_name + " " + programmer.last_name,
+#         programmer.gender,
+#         programmer.nationality,
+#         programmer.famous_for,
+#         sep=" | "
+#     )
+
+subjects = session.query(Subjects)
+for subject in subjects:
     print(
-        programmer.id,
-        programmer.first_name + " " + programmer.last_name,
-        programmer.gender,
-        programmer.nationality,
-        programmer.famous_for,
+        subject.id,
+        subject.name,
+        subject.credits,
         sep=" | "
     )
